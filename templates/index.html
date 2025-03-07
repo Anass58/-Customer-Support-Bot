@@ -1,23 +1,55 @@
- 
-### 2. `templates/index.html` – Chatbot Interface
-```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Customer Support Bot</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
+
 <body>
-    <h1>Welcome to Customer Support</h1>
-    <form method="POST">
-        <label for="message">Your Message:</label>
-        <input type="text" id="message" name="message" required>
-        <button type="submit">Send</button>
-    </form>
-    {% if user_message %}
-        <h2>You: {{ user_message }}</h2>
-        <h2>Bot: {{ bot_reply }}</h2>
-    {% endif %}
+    <div class="chat-container">
+        <div class="chat-header">🛍️ Customer Support Bot</div>
+        <div class="chat-body" id="chat-body">
+            <div class="bot-message">Welcome! How can I assist you today?</div>
+            <button onclick="sendQuickMessage('Tell me about a product')">🛒 Product Info</button>
+            <button onclick="sendQuickMessage('Check my order status')">📦 Order Status</button>
+            <button onclick="sendQuickMessage('What is your return policy?')">🔄 Return Policy</button>
+            <button onclick="sendQuickMessage('I want to speak to human support')">👨‍💼 Human Support</button>
+        </div>
+        <input type="text" id="user-input" placeholder="Type your message..." />
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        async function sendMessage() {
+            const userInput = document.getElementById('user-input').value;
+            if (!userInput) return;
+            appendMessage(userInput, 'user');
+
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: userInput })
+            });
+            const data = await response.json();
+            appendMessage(data.response, 'bot');
+            document.getElementById('user-input').value = '';
+        }
+
+        function sendQuickMessage(message) {
+            document.getElementById('user-input').value = message;
+            sendMessage();
+        }
+
+        function appendMessage(message, sender) {
+            const chatBody = document.getElementById('chat-body');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = sender === 'user' ? 'user-message' : 'bot-message';
+            messageDiv.textContent = message;
+            chatBody.appendChild(messageDiv);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+    </script>
 </body>
+
 </html>
-```
