@@ -1,16 +1,48 @@
- 
-### 3. `static/style.css` – Chatbot Styling
-```css
 body {
     font-family: Arial, sans-serif;
-    margin: 40px;
-    background-color: #f9f9f9;
+    background: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
 }
-h1 {
-    color: #333;
+
+.chat-container {
+    width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
 }
-input, button {
+
+.chat-header {
+    background: #4CAF50;
+    color: white;
     padding: 10px;
-    margin: 10px 0;
+    text-align: center;
+    font-size: 18px;
 }
-```
+
+.chat-body {
+    padding: 10px;
+    height: 400px;
+    overflow-y: auto;
+}
+
+.user-message {
+    text-align: right;
+    margin: 5px;
+    color: white;
+    background: #2196F3;
+    padding: 8px 12px;
+    border-radius: 8px;
+}
+
+.bot-message {
+    text-align: left;
+    margin: 5px;
+    background: #E0E0E0;
+    padding: 8px 12px;
+    border-radius: 8px;
+}
